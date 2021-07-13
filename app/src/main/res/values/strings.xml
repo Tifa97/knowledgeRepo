@@ -6,4 +6,14 @@
     <string name="starting_message">This app is made as a repository of things I used and will probably need reusing</string>
     <string name="skip">Skip</string>
     <string name="let_s_start">Let\'s start</string>
+
+    <!-- Home screen -->
+    <string name="demonstrate_retrofit">Demonstrate Retrofit</string>
+    <string name="demonstrate_room">Demonstrate Room</string>
+
+    <!-- Brewery screen -->
+    <string name="brewery_info">%1$s, %2$s</string>
+    <string name="save_brewery_msg">Do you want to save this brewery to database?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 </resources>

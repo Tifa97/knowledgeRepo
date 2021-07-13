@@ -13,17 +13,17 @@ data class Brewery(
     var breweryId: Int,
 
     @ColumnInfo(name = "name")
-    var name: String,
+    var name: String?,
 
     @ColumnInfo(name = "city")
-    var city: String,
+    var city: String?,
 
     @ColumnInfo(name = "street")
-    var street: String,
+    var street: String?,
 
     @ColumnInfo(name = "phone")
-    var phone: String,
+    var phone: String?,
 
     @ColumnInfo(name = "website_url")
-    var websiteUrl: String
+    var websiteUrl: String?
 )

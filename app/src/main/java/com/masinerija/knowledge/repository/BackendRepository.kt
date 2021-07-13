@@ -10,7 +10,7 @@ class BackendRepository {
         ServiceBuilder.buildService()
     }
 
-    suspend fun getBreweries(breweries: BreweriesResponse): List<Brewery>{
+    suspend fun getBreweries(): List<Brewery>{
         val result = service.getBreweries()
 
         var returnList = mutableListOf<Brewery>()

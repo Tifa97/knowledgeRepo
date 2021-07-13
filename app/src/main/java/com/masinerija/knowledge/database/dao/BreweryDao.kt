@@ -1,0 +1,13 @@
+package com.masinerija.knowledge.database.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.masinerija.knowledge.database.entity.Brewery
+
+@Dao
+interface BreweryDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBrewery(brewery: Brewery)
+}
