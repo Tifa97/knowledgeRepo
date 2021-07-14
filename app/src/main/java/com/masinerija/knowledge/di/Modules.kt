@@ -5,6 +5,7 @@ import com.masinerija.knowledge.repository.BackendRepository
 import com.masinerija.knowledge.repository.DataStorePreferences
 import com.masinerija.knowledge.repository.DatabaseRepository
 import com.masinerija.knowledge.viewmodel.BreweriesViewModel
+import com.masinerija.knowledge.viewmodel.SavedBreweriesViewModel
 import com.masinerija.knowledge.viewmodel.SplashViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,4 +20,5 @@ val appModule = module {
 
     viewModel { SplashViewModel(get()) }
     viewModel { BreweriesViewModel(get(), get()) }
+    viewModel { SavedBreweriesViewModel(get()) }
 }

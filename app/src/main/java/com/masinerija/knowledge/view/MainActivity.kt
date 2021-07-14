@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
         binding.btnRetrofit.setOnClickListener{
             startActivity(BreweriesActivity.newIntent(this))
         }
+
+        binding.btnRoom.setOnClickListener{
+            startActivity(SavedBreweriesActivity.newIntent(this))
+        }
     }
 
     companion object {

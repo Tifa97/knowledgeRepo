@@ -1,32 +1,27 @@
 package com.masinerija.knowledge.view.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.masinerija.knowledge.R
 import com.masinerija.knowledge.database.entity.Brewery
 import com.masinerija.knowledge.databinding.ListItemBreweryBinding
+import com.masinerija.knowledge.databinding.ListItemSavedBreweryBinding
 
-typealias BreweryClickListener = (Brewery) -> Unit
+typealias SavedBreweryClickListener = (Brewery) -> Unit
 
-class BreweryItemAdapter(
-    var clickListener: BreweryClickListener
-): RecyclerView.Adapter<BreweryItemAdapter.ViewHolder>() {
+class SavedBreweryItemAdapter(var clickListener: SavedBreweryClickListener):
+    RecyclerView.Adapter<SavedBreweryItemAdapter.ViewHolder>(){
 
     private val items = ArrayList<Brewery>()
-    private val existingIds = ArrayList<Int>()
 
-    fun setData(fetchedBreweries: List<Brewery>, savedIds: List<Int>?) {
-        val diffCallback = BreweryDiffCallback(items, fetchedBreweries)
+    fun setData(breweries: List<Brewery>) {
+        val diffCallback = SavedBreweryDiffCallback(items, breweries)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         items.clear()
-        items.addAll(fetchedBreweries)
-        existingIds.clear()
-        savedIds?.let {
-            existingIds.addAll(it)
-        }
+        items.addAll(breweries)
         diffResult.dispatchUpdatesTo(this)
         notifyDataSetChanged()
     }
@@ -36,10 +31,10 @@ class BreweryItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(item = items[position], existingIds)
+        holder.bind(item = items[position])
         holder.itemView.tag = position
 
-        holder.binding.btnSave.setOnClickListener{
+        holder.binding.btnEdit.setOnClickListener{
             clickListener(items[position])
         }
     }
@@ -48,33 +43,32 @@ class BreweryItemAdapter(
         return items.count()
     }
 
-    class ViewHolder(val binding: ListItemBreweryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Brewery, existingIds: ArrayList<Int>){
-            binding.txtBrewery.text = binding.root.context.getString(R.string.brewery_info, item.name, item.city)
-            binding.btnSave.isVisible = checkIfItemExists(item, existingIds)
+    class ViewHolder(val binding: ListItemSavedBreweryBinding): RecyclerView.ViewHolder(binding.root) {
+        val context: Context = binding.root.context
+
+        fun bind(item: Brewery){
+            binding.txtBrewery.text = context.getString(R.string.brewery_info, item.name, item.city)
+            binding.txtStreet.text = context.getString(R.string.street, handleIfNull(item.street))
+            binding.txtPhone.text = context.getString(R.string.phone, handleIfNull(item.phone))
+            binding.txtUrl.text = context.getString(R.string.website, handleIfNull(item.websiteUrl))
         }
 
-        private fun checkIfItemExists(item: Brewery, existingIds: ArrayList<Int>): Boolean {
-            var exists = false
-            existingIds.forEach{ id ->
-                if (id == item.breweryId){
-                    exists = true
-                }
-            }
-            return !exists
+        private fun handleIfNull(text: String?): String {
+            return text ?: context.getString(R.string.not_acquired)
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListItemBreweryBinding.inflate(layoutInflater, parent, false)
+                val binding = ListItemSavedBreweryBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
     }
 
-    class BreweryDiffCallback(private val old: List<Brewery>, private val new: List<Brewery>) :
-    DiffUtil.Callback(){
+    class SavedBreweryDiffCallback(
+        private val old: List<Brewery>,
+        private val new: List<Brewery>) : DiffUtil.Callback() {
         override fun getOldListSize(): Int = old.size
         override fun getNewListSize(): Int = new.size
 
@@ -88,4 +82,3 @@ class BreweryItemAdapter(
         }
     }
 }
-

@@ -1,7 +1,6 @@
 package com.masinerija.knowledge.view
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,10 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.masinerija.knowledge.R
 import com.masinerija.knowledge.database.entity.Brewery
 import com.masinerija.knowledge.databinding.ActivityBreweriesBinding
-import com.masinerija.knowledge.databinding.ActivityMainBinding
 import com.masinerija.knowledge.view.adapter.BreweryItemAdapter
 import com.masinerija.knowledge.viewmodel.BreweriesViewModel
-import com.masinerija.knowledge.viewmodel.SplashViewModel
+import kotlinx.android.synthetic.main.list_item_brewery.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BreweriesActivity : AppCompatActivity() {
@@ -37,18 +35,36 @@ class BreweriesActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        val existingIds = mutableListOf<Int>()
         viewModel.breweriesObservable.observe(
             this,
             {
                 it?.let {
-                    updateAdapter(it)
+                    viewModel.savedBreweriesObservable.value?.forEach { brewery ->
+                        existingIds.add(brewery.breweryId)
+                    }
+                    updateAdapter(it, existingIds.toList())
+                }
+            }
+        )
+
+        viewModel.savedBreweriesObservable.observe(
+            this,
+            {
+                it?.let {
+                    it.forEach{ brewery ->
+                        existingIds.add(brewery.breweryId)
+                    }
+                    viewModel.breweriesObservable.value?.let { breweries ->
+                        updateAdapter(breweries, existingIds.toList())
+                    }
                 }
             }
         )
     }
 
-    private fun updateAdapter(breweries: List<Brewery>) {
-        (binding.recyclerBreweries.adapter as BreweryItemAdapter).submitList(breweries)
+    private fun updateAdapter(breweries: List<Brewery>, existingIds: List<Int>?) {
+        (binding.recyclerBreweries.adapter as BreweryItemAdapter).setData(breweries, existingIds)
     }
 
     private fun saveBrewery(brewery: Brewery) {
