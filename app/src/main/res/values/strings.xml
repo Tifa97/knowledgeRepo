@@ -16,4 +16,12 @@
     <string name="save_brewery_msg">Do you want to save this brewery to database?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+
+    <!-- Saved brewery screen -->
+    <string name="street">Street: %1$s</string>
+    <string name="phone">Phone: %1$s</string>
+    <string name="website">Website: %1$s</string>
+    <string name="toast_open_edit">Open edit brewery screen</string>
+    <string name="not_acquired">N/A</string>
+
 </resources>

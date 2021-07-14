@@ -2,6 +2,7 @@ package com.masinerija.knowledge.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.masinerija.knowledge.database.entity.Brewery
 import com.masinerija.knowledge.repository.BackendRepository
 import com.masinerija.knowledge.repository.DatabaseRepository
@@ -16,6 +17,8 @@ class BreweriesViewModel(
 ): BaseViewModel(){
     private val _breweriesObservable = MutableLiveData<List<Brewery>>()
     val breweriesObservable: LiveData<List<Brewery>> = _breweriesObservable
+
+    val savedBreweriesObservable = databaseRepository.breweriesFlow.asLiveData()
 
     val errorObservable = MutableLiveData<Boolean>()
     private val handler = CoroutineExceptionHandler { _, d ->

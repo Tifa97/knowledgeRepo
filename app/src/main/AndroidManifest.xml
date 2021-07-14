@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.masinerija.knowledge">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".KnowledgeApplication"
@@ -27,7 +27,11 @@
             android:name=".view.OnboardingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.BreweriesActivity"
+        <activity
+            android:name=".view.BreweriesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.SavedBreweriesActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
     </application>
